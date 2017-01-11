@@ -14,7 +14,7 @@
 	<annotation-driven />
 	
 	<mvc:interceptors>
-		<beans:bean class="br.ufpi.es.servicos.AutorizadorInterceptor" />
+		<beans:bean class="br.ufpi.es.universidadesimples.servicos.AutorizadorInterceptor" />
 	</mvc:interceptors>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
@@ -26,7 +26,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="br.ufpi.es" />
+	<context:component-scan base-package="br.ufpi.es.universidadesimples" />
 	
 	
 	

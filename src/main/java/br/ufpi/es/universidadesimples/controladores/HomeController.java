@@ -1,4 +1,4 @@
-package br.ufpi.es.controladores;
+package br.ufpi.es.universidadesimples.controladores;
 
 import java.util.Locale;
 
@@ -12,8 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import br.ufpi.es.entidades.Usuario;
-import br.ufpi.es.servicos.*;
+import br.ufpi.es.universidadesimples.entidades.Usuario;
+import br.ufpi.es.universidadesimples.servicos.DadosServidor;
 
 /**
  * Handles requests for the application home page.
