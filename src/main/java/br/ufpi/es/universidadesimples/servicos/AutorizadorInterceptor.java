@@ -20,6 +20,10 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter{
 		if(request.getSession().getAttribute("usuarioLogado") != null) {
 			return true;
 		}
+		
+		if(uri.endsWith("cadastrar")){
+			return true;
+		}
 		response.sendRedirect("login");
 		return false;
 	}

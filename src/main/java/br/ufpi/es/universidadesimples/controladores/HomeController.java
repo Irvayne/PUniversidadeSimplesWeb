@@ -3,6 +3,7 @@ package br.ufpi.es.universidadesimples.controladores;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -55,4 +56,27 @@ public class HomeController {
 		model.addAttribute("serverTime", dataFormatada );
 		return "home";
 	}
+	
+	@RequestMapping(value = "/cadastrar", method = RequestMethod.GET)
+	public String cadastrar(HttpServletRequest request, HttpSession session) {
+		if(request.getSession().getAttribute("usuarioLogado") != null){
+		Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+		session.removeAttribute("usuarioLogado");
+		}
+		return "cadastrar";
+	}
+	
+	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
+	public String cadastrar(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model, Locale locale) {
+		String nome = request.getParameter("nome");
+		String email = request.getParameter("email");
+		String senha = request.getParameter("senha");
+		
+		Usuario usuario = new Usuario(nome, email, senha);
+		//adiciono no usuario dao 
+		
+		return "login";
+	}
+	
+	
 }

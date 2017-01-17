@@ -13,7 +13,10 @@
 				<br>
 				senha:<input type="password" name="senha"/>
 				<br>
-				<input type="submit" value="Logar">	
-			</form>	 
+				<input type="submit" value="Logar">		
+			</form>	
+			<form action="cadastrar" method="GET">
+			<input type="submit" value="Cadastrar"> 
+			</form>
     </body>
 </html>
