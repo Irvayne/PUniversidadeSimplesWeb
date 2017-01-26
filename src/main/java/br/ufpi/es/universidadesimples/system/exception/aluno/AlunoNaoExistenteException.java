@@ -4,6 +4,6 @@ package br.ufpi.es.universidadesimples.system.exception.aluno;
 public class AlunoNaoExistenteException extends Exception{
 	
 	public AlunoNaoExistenteException(){
-		super("Esse aluno n√£o existe");
+		super("N„o exite aluno cadastrado com essas informacoes");
 	}
 }

@@ -1,4 +1,4 @@
-package br.ufpi.es.universidadesimples.controladores;
+package br.ufpi.es.universidadesimples.controller;
 
 import javax.servlet.http.HttpSession;
 

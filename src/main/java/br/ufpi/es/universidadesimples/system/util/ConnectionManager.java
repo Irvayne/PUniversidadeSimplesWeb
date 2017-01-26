@@ -87,9 +87,9 @@ public class ConnectionManager {
             try {
 
               String nomeDriver = "com.mysql.jdbc.Driver";
-              String url = "jdbc:mysql://localhost/sistemaEscolar";
+              String url = "jdbc:mysql://localhost/sistemaescolar";
               String user = "root";
-              String pwd = "";
+              String pwd = "root";
 
 
                 Class.forName(nomeDriver);
