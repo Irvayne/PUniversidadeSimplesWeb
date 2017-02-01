@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.ufpi.es.universidadesimples.entidades.Usuario;
 import br.ufpi.es.universidadesimples.model.Aluno;
+import br.ufpi.es.universidadesimples.model.Professor;
 import br.ufpi.es.universidadesimples.system.exception.aluno.AlunoNaoExistenteException;
 import br.ufpi.es.universidadesimples.system.exception.aluno.AlunosNaoCadastradosException;
+import br.ufpi.es.universidadesimples.system.exception.professor.ProfessorNaoExistenteException;
+import br.ufpi.es.universidadesimples.system.exception.professor.ProfessoresNaoCadastradosException;
 
 @Controller
 public class FachadaController {
@@ -27,8 +30,10 @@ public class FachadaController {
 	}
 	
 	@RequestMapping(value = "/professor", method = RequestMethod.GET)
-	public String professor() {
+	public String professor(Model model, HttpSession session) {
 		
+		Usuario dadosUsuario = (Usuario)session.getAttribute("usuarioLogado");
+		model.addAttribute("emailUsuario", dadosUsuario.getEmail());
 		return "professor";
 	}
 	
@@ -186,5 +191,162 @@ public class FachadaController {
 			return "aluno";
 		}
 		return "aluno/quantidadeAlunos";
+	}
+	
+	@RequestMapping(value = "/inserirProfessor", method = RequestMethod.GET)
+	public String inserirProfessor() {
+		
+		return "professor/inserirProfessor";
+	}
+	
+	@RequestMapping(value = "/inserirProfessor", method = RequestMethod.POST)
+	public String inserirProfessor(HttpSession session, HttpServletRequest request,  Model model) {
+		String cpf = request.getParameter("cpf");
+		String nome = request.getParameter("nome");
+		String lotacao = request.getParameter("lotacao");
+		String titulo = request.getParameter("titulo");
+		
+		Usuario dadosUsuario = (Usuario)session.getAttribute("usuarioLogado");
+		model.addAttribute("emailUsuario", dadosUsuario.getEmail());
+		
+		if(nome.equals("") || cpf.equals("") || lotacao.equals("") || titulo.equals("")){
+			model.addAttribute("informacao", "Todos os campos devem estar preenchidos!");
+			return "professor/inserirProfessor";
+		}
+			
+		Professor professor = new Professor(cpf, nome, lotacao, titulo);
+		try {
+			fachada.inserirProfessor(professor);
+		} catch (Exception e) {
+			model.addAttribute("informacao", e.getMessage());
+			return "professor/inserirProfessor";
+		}
+		model.addAttribute("informacao", "Professor matriculado!");
+		return "professor";
+	}
+	
+	@RequestMapping(value = "/listarProfessores", method = RequestMethod.GET)
+	public String listarProfessores(Model model) {
+		
+			try {
+				model.addAttribute("professores",fachada.listarProfessores());
+			} catch (ProfessoresNaoCadastradosException e) {
+				model.addAttribute("informacao",e.getMessage());
+			} catch (Exception e) {
+				model.addAttribute("informacao","Erro ao processar");
+			}
+		
+		
+		return "professor/listarProfessores";
+	}
+	
+	@RequestMapping(value = "/buscarProfessor", method = RequestMethod.GET)
+	public String buscarProfessor() {
+		
+		return "professor/buscarProfessor";
+	}
+	
+	
+	
+	@RequestMapping(value = "/buscarProfessor", method = RequestMethod.POST)
+	public String buscarProfessor(HttpServletRequest request,  Model model) {
+		String cpf = request.getParameter("cpf");
+		try {
+			Professor professor = fachada.buscarProfessor(cpf);
+			model.addAttribute("professor",professor);
+		} catch (ProfessorNaoExistenteException e) {
+			model.addAttribute("informacao",e.getMessage());
+			return "professor/buscarProfessor"; 
+		} catch (Exception e) {
+			model.addAttribute("informacao","Erro no processamento");
+			return "professor/buscarProfessor"; 
+		}
+		
+		return "professor/perfilProfessor";
+	}
+	
+	@RequestMapping(value = "/removerProfessor", method = RequestMethod.GET)
+	public String removerProfessor() {
+		
+		return "professor/removerProfessor";
+	}
+	
+	@RequestMapping(value = "/removerProfessor", method = RequestMethod.POST)
+	public String removerProfessor(HttpServletRequest request,  Model model, HttpSession session) {
+		String cpf = request.getParameter("cpf");
+		try {
+			fachada.removerProfessor(cpf);
+			model.addAttribute("informacao","Professor removido com sucesso");
+			Usuario dadosUsuario = (Usuario)session.getAttribute("usuarioLogado");
+			model.addAttribute("emailUsuario", dadosUsuario.getEmail());
+		} catch (ProfessorNaoExistenteException e) {
+			model.addAttribute("informacao",e.getMessage());
+			return "professor/removerProfessor"; 
+		} catch (Exception e) {
+			model.addAttribute("informacao","Erro no processamento");
+			return "professor/removerProfessor";
+		}
+		
+		return "professor";
+	}
+	
+	@RequestMapping(value = "/alterarProfessor", method = RequestMethod.GET)
+	public String alterarProfessor() {
+		
+		return "professor/alterarProfessor";
+	}
+	
+	@RequestMapping(value = "/alterarProfessor", method = RequestMethod.POST)
+	public String alterarProfessor(HttpServletRequest request,  Model model) {
+		String cpf = request.getParameter("cpf");
+		try {
+			Professor professor = fachada.buscarProfessor(cpf);
+			model.addAttribute("professor",professor);
+		} catch (ProfessorNaoExistenteException e) {
+			model.addAttribute("informacao",e.getMessage());
+			return "professor/alterarProfessor"; 
+		} catch (Exception e) {
+			model.addAttribute("informacao","Erro no processamento");
+			return "professor/alterarProfessor";
+		}
+		
+		return "professor/alterarPerfilProfessor";
+	}
+	
+	@RequestMapping(value = "/alterarPerfilProfessor", method = RequestMethod.POST)
+	public String alterarPerfilProfessor(HttpServletRequest request,  Model model, HttpSession session) {
+		String cpf = request.getParameter("cpf");
+		String nome = request.getParameter("nome");
+		String lotacao = request.getParameter("lotacao");
+		String titulo = request.getParameter("titulo");
+		
+		if(nome.equals("") || cpf.equals("") || lotacao.equals("") || titulo.equals("")){
+			model.addAttribute("informacao", "Todos os campos devem estar preenchidos!");
+			return "professor/alterarProfessor";
+		}
+		
+		Professor professor = new Professor(cpf, nome, lotacao, titulo);
+		try {
+			fachada.alterarProfessor(professor, cpf);
+			model.addAttribute("informacao","Professor alterado com sucesso");
+			Usuario dadosUsuario = (Usuario)session.getAttribute("usuarioLogado");
+			model.addAttribute("emailUsuario", dadosUsuario.getEmail());
+		} catch (Exception e) {
+			model.addAttribute("informacao","Erro no processamento");
+			return "professor/alterarProfessor";
+		}
+		
+		return "professor";
+	}
+	
+	@RequestMapping(value = "/quantidadeProfessores", method = RequestMethod.GET)
+	public String quantidadeProfessores(Model model) {
+		try {
+			model.addAttribute("informacao",fachada.quantidadeProfessores());
+		} catch (Exception e) {
+			model.addAttribute("informacao","Erro no processamento");
+			return "professor";
+		}
+		return "professor/quantidadeProfessores";
 	}
 }
