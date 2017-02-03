@@ -47,7 +47,7 @@ public class Fachada implements IFachada {
 		true para utilizar o banco
 		false para utilizar a lista
 		*/
-		boolean banco = false;
+		boolean banco = true;
 		if(banco){
 			this.repositorioAlunos = new RepositorioBancoAlunos();
 			this.repositorioProfessores = new RepositorioBancoProfessores();
