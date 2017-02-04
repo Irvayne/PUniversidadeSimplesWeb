@@ -40,8 +40,10 @@ public class FachadaController {
 	}
 	
 	@RequestMapping(value = "/turma", method = RequestMethod.GET)
-	public String turma() {
+	public String turma(Model model, HttpSession session) {
 		
+		Usuario dadosUsuario = (Usuario)session.getAttribute("usuarioLogado");
+		model.addAttribute("emailUsuario", dadosUsuario.getEmail());
 		return "turma";
 	}
 	

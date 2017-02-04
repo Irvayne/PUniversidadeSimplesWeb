@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,17 +10,32 @@
 <body>
 <h1>Tela Turma</h1>
 <p> Usuario: ${emailUsuario} </p>
+<p>  ${informacao} </p>
 <br>
-<a href="">Inserir</a>
-<a href="">Listar</a>
-<a href="">Buscar</a>
-<a href="">Remover</a>
-<a href="">Alterar</a>
-<a href="">Quantidade de Turmas</a>
-<a href="">Matricular Aluno</a>
-<a href="">Listar Alunos de uma Turma</a>
-<a href="">Associar Professor a Turma</a>
-<a href="">Voltar</a>
-<a href="">Deslogar</a>
+
+			<form action="inserirTurma" method="GET">
+				<input type="submit" value="Inserir"> 
+			</form>
+			<form action="buscarTurma" method="GET">
+				<input type="submit" value="Buscar"> 
+			</form>
+			<form action="listarTurmas" method="GET">
+				<input type="submit" value="Listar"> 
+			</form>
+			<form action="alterarTurma" method="GET">
+				<input type="submit" value="Alterar"> 
+			</form>
+			<form action="removerTurma" method="GET">
+				<input type="submit" value="Remover"> 
+			</form>
+			<form action="quantidadeTurmas" method="GET">
+				<input type="submit" value="Quantidade de Turmas"> 
+			</form>
+			<form action="home" method="GET">
+				<input type="submit" value="Voltar"> 
+			</form>
+			
+			
+
 </body>
 </html>
