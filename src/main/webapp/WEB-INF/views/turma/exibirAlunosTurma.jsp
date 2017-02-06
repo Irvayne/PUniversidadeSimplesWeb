@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,18 +8,18 @@
 <title>Insert title here</title>
 </head>
 <body>
+<h1>
+	Alunos Matriculados
+</h1>
 <p>  ${informacao} </p>
-        <h4>Inserir Turma</h4>
-			<form action="inserirTurma" method="POST">
-				Discipina:<input type="text" name="disciplina"/>
-				<br>
-				Departamento:<input type="text" name="departamento"/>
-				<br>
-				Carga Horaria:<input type="text" name="horario"/>
-				<br>
-				<input type="submit" value="Cadastrar">		
-			</form>	
-			<form action="turma" method="GET">
+
+    <c:forEach items="${alunosTurma}" var="aluno">
+       <c:out value="${aluno.nome}"/> 
+      <c:out value="${aluno.matricula}"/> 
+      <c:out value="${aluno.curso}"/> <br>
+    </c:forEach>
+   <br>
+	<form action="listarAlunosTurma" method="GET">
 			<input type="submit" value="Voltar"> 
 			</form>
 </body>

@@ -552,4 +552,117 @@ public class FachadaController {
 		}
 		return "turma/quantidadeTurmas";
 	}
+	
+	@RequestMapping(value = "/matricularAluno", method = RequestMethod.GET)
+	public String matricularAluno() {
+		
+		return "turma/matricularAluno";
+	}
+	
+	@RequestMapping(value = "/matricularAluno", method = RequestMethod.POST)
+	public String matricularAluno(HttpSession session, HttpServletRequest request,  Model model) {
+		String matricula = request.getParameter("matricula");
+		String identificador = request.getParameter("identificador");
+		
+		
+		Usuario dadosUsuario = (Usuario)session.getAttribute("usuarioLogado");
+		model.addAttribute("emailUsuario", dadosUsuario.getEmail());
+		
+		try{
+			Integer.parseInt(identificador);
+			}catch (Exception e) {
+				model.addAttribute("informacao", "O campo identificador deve conter valores numericos!");
+				return "turma/matricularAluno";
+			}
+		
+		if(matricula.equals("") || identificador.equals("") ){
+			model.addAttribute("informacao", "Todos os campos devem estar preenchidos!");
+			return "turma/matricularAluno";
+		}
+			
+		
+		try {
+			fachada.matricularAlunoTurma(fachada.buscarAluno(matricula), fachada.buscarTurma(Integer.parseInt(identificador)));
+		} catch (Exception e) {
+			model.addAttribute("informacao", e.getMessage());
+			return "turma/matricularAluno";
+		}
+		model.addAttribute("informacao", "Aluno matriculado!");
+		return "turma";
+	}
+	
+	@RequestMapping(value = "/listarAlunosTurma", method = RequestMethod.GET)
+	public String listarAlunosTurma() {
+		
+		return "turma/listarAlunosTurma";
+	}
+	
+	@RequestMapping(value = "/listarAlunosTurma", method = RequestMethod.POST)
+	public String listarAlunosTurma(HttpSession session, HttpServletRequest request,  Model model) {
+		String identificador = request.getParameter("identificador");
+		
+		
+		Usuario dadosUsuario = (Usuario)session.getAttribute("usuarioLogado");
+		model.addAttribute("emailUsuario", dadosUsuario.getEmail());
+		
+		try{
+			Integer.parseInt(identificador);
+			}catch (Exception e) {
+				model.addAttribute("informacao", "O campo identificador deve conter valores numericos!");
+				return "turma/listarAlunosTurma";
+			}
+		
+		if(identificador.equals("") ){
+			model.addAttribute("informacao", "Todos os campos devem estar preenchidos!");
+			return "turma/listarAlunosTurma";
+		}
+			
+		
+		try {
+			model.addAttribute("alunosTurma",fachada.listarAlunoPorTurma(fachada.buscarTurma(Integer.parseInt(identificador))));
+		} catch (Exception e) {
+			model.addAttribute("informacao", e.getMessage());
+			return "turma/listarAlunosTurma";
+		}
+		
+		return "turma/exibirAlunosTurma";
+	}
+	
+	@RequestMapping(value = "/associarProfessorTurma", method = RequestMethod.GET)
+	public String associarProfessorTurma() {
+		
+		return "turma/associarProfessorTurma";
+	}
+	
+	@RequestMapping(value = "/associarProfessorTurma", method = RequestMethod.POST)
+	public String associarProfessorTurma(HttpSession session, HttpServletRequest request,  Model model) {
+		String cpf = request.getParameter("cpf");
+		String identificador = request.getParameter("identificador");
+		
+		
+		Usuario dadosUsuario = (Usuario)session.getAttribute("usuarioLogado");
+		model.addAttribute("emailUsuario", dadosUsuario.getEmail());
+		
+		try{
+			Integer.parseInt(identificador);
+			}catch (Exception e) {
+				model.addAttribute("informacao", "O campo identificador deve conter valores numericos!");
+				return "turma/associarProfessorTurma";
+			}
+		
+		if(cpf.equals("") || identificador.equals("") ){
+			model.addAttribute("informacao", "Todos os campos devem estar preenchidos!");
+			return "turma/associarProfessorTurma";
+		}
+			
+		
+		try {
+			fachada.associarProfessorTurma(fachada.buscarProfessor(cpf), fachada.buscarTurma(Integer.parseInt(identificador)));
+		} catch (Exception e) {
+			model.addAttribute("informacao", e.getMessage());
+			return "turma/associarProfessorTurma";
+		}
+		model.addAttribute("informacao", "Professor associado!");
+		return "turma";
+	}
 }

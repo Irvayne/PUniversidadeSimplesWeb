@@ -8,15 +8,13 @@
 </head>
 <body>
 <p>  ${informacao} </p>
-        <h4>Inserir Turma</h4>
-			<form action="inserirTurma" method="POST">
-				Discipina:<input type="text" name="disciplina"/>
+        <h4>Matricular Aluno</h4>
+			<form action="matricularAluno" method="POST">
+				Informe a Matricula:<input type="text" name="matricula"/>
 				<br>
-				Departamento:<input type="text" name="departamento"/>
+				Informe o identificador da turma:<input type="text" name="identificador"/>
 				<br>
-				Carga Horaria:<input type="text" name="horario"/>
-				<br>
-				<input type="submit" value="Cadastrar">		
+				<input type="submit" value="Matricular">		
 			</form>	
 			<form action="turma" method="GET">
 			<input type="submit" value="Voltar"> 

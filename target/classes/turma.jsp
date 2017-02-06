@@ -31,6 +31,15 @@
 			<form action="quantidadeTurmas" method="GET">
 				<input type="submit" value="Quantidade de Turmas"> 
 			</form>
+			<form action="matricularAluno" method="GET">
+				<input type="submit" value="Matricular Aluno"> 
+			</form>
+			<form action="listarAlunosTurma" method="GET">
+				<input type="submit" value="Listar Alunos de uma Turma"> 
+			</form>
+			<form action="associarProfessorTurma" method="GET">
+				<input type="submit" value="Associar Professor a Turma"> 
+			</form>
 			<form action="home" method="GET">
 				<input type="submit" value="Voltar"> 
 			</form>
